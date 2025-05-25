@@ -1,35 +1,46 @@
+using System;
+using System.Collections;
 using UnityEngine;
-
+using System.Collections.Generic;
 public class Scoup : MonoBehaviour
 {
     public GameObject projectilePrefab;
     public float projectileSpeed = 20f;
     public Transform shootPoint; // Точка, откуда вылетает снаряд
+    private Animator animator;
+    private List<GameObject> bullets;
+
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // ЛКМ
+        animator.SetBool("Meny",CameraController.starting);
+        if (Input.GetMouseButtonDown(0) && bullets.Count <= 0 && Timer.Canshoot) // ЛКМ
         {
+            //animator.Play("Blend Tree");
+            animator.SetTrigger("Shoot");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
                 Vector3 targetPoint = hit.point;
-                ShootAt(targetPoint);
+                StartCoroutine(ShootAt(targetPoint));
             }
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void FixedUpdate()
     {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Destroy(gameObject);
-        }
+        bullets = new List<GameObject>(GameObject.FindGameObjectsWithTag("Bullet"));
     }
-    
-    void ShootAt(Vector3 targetPosition)
+
+
+    IEnumerator ShootAt(Vector3 targetPosition)
     {
+        yield return new WaitForSeconds(0.3f);
         Vector3 direction = (targetPosition - shootPoint.position).normalized;
         GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
     

@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour
   
       private Vector3 velocity = Vector3.zero;
       private bool targetFound = false;
-      private bool buletfound;
+      public bool buletfound;
   
       void Start()
       {

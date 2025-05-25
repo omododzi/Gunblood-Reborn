@@ -4,6 +4,13 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public AnimatorController animator;
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Head"))
