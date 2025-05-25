@@ -5,6 +5,9 @@ public class CanvasController : MonoBehaviour
 {
     public Canvas startui;
     public Canvas gameui;
+    public GameObject mysicOn;
+    public GameObject mysicOff;
+    public static bool Mysic = true;
 
     void Start()
     {
@@ -23,6 +26,20 @@ public class CanvasController : MonoBehaviour
         {
             gameui.enabled = true;
             startui.enabled = false;
+        }
+    }
+    public void Switchmysic()
+    {
+        Mysic = !Mysic;
+        if (!Mysic)
+        {
+            mysicOff.SetActive(true);
+            mysicOn.SetActive(false);
+        }
+        else
+        {
+            mysicOff.SetActive(false);
+            mysicOn.SetActive(true);
         }
     }
 }

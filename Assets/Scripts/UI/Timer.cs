@@ -18,6 +18,7 @@ public class Timer : MonoBehaviour
         timer = 0f;
         sprite.color = Color.red; // Начальный цвет
         Canshoot = false;
+        //Cursor.visible = false;
     }
 
     private void Update()
@@ -30,10 +31,6 @@ public class Timer : MonoBehaviour
                 timer += Time.deltaTime;
                 timerText.text = timer.ToString("0.00");
             }
-
-            // Плавное изменение цвета в зависимости от времени
-            float progress = Mathf.Clamp01(timer / shoottime);
-            
             if (timer <= shoottime * 0.5f && sprite.color != Color.red)
             {
                 sprite.color = Color.red;
@@ -44,6 +41,7 @@ public class Timer : MonoBehaviour
             }
             else if (timer >= shoottime * 0.9f && sprite.color != Color.green)
             {
+                Cursor.visible = true;
                 sprite.color = Color.green;
                 Canshoot = true;
             }

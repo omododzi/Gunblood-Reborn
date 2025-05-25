@@ -10,6 +10,8 @@ TagManager:
   - Body
   - RightHand
   - LeftHand
+  - Destroy
+  - Target
   layers:
   - Default
   - TransparentFX

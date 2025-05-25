@@ -4,53 +4,74 @@ using System.Collections;
 public class ScrollSkin : MonoBehaviour
 {
     public float scrollSpeed = 100f;
-    public float smoothTime = 0.3f;
+    public float smoothTime = 0.5f;
+    public AnimationCurve easeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+    
     private float startY;
+    private float startX;
+    public float endX;
     public float endY;
     private RectTransform rectTransform;
     private RectTransform parentRectTransform;
-    private Vector2 currentVelocity;
+    private Coroutine currentCoroutine;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         parentRectTransform = transform.parent.GetComponent<RectTransform>();
         startY = parentRectTransform.anchoredPosition.y;
-        endY = gameObject.GetComponent<RectTransform>().anchoredPosition.y;
+        startX = parentRectTransform.anchoredPosition.x;
+        
+        if (endX == 0 && endY == 0)
+        {
+            endX = rectTransform.anchoredPosition.x;
+            endY = rectTransform.anchoredPosition.y;
+        }
     }
 
     private void OnDisable()
     {
-        Vector2 newPos = new Vector2(rectTransform.anchoredPosition.x, startY);
-        rectTransform.anchoredPosition = newPos;
+        // Останавливаем все корутины при деактивации
+        if (currentCoroutine != null)
+        {
+            StopCoroutine(currentCoroutine);
+            currentCoroutine = null;
+        }
+        
+        // Немедленный сброс позиции без корутины
+        rectTransform.anchoredPosition = new Vector2(startX, startY);
     }
 
     private void OnEnable()
     {
-        StartCoroutine(SmoothScroll());
+        // Запускаем новую корутину только если объект активен
+        if (gameObject.activeInHierarchy)
+        {
+            currentCoroutine = StartCoroutine(SmoothScroll());
+        }
     }
 
     private IEnumerator SmoothScroll()
     {
-        Vector2 startPos = new Vector2(rectTransform.anchoredPosition.x, startY);
-        Vector2 targetPos = new Vector2(rectTransform.anchoredPosition.x, endY);
-        rectTransform.anchoredPosition = startPos;
-
-        float elapsedTime = 0f;
+        Vector2 startPos = new Vector2(startX, startY);
+        Vector2 targetPos = new Vector2(endX, endY);
         
-        while (elapsedTime < smoothTime)
+        rectTransform.anchoredPosition = startPos;
+        
+        float t = 0;
+        while (t < 1f)
         {
-            rectTransform.anchoredPosition = Vector2.SmoothDamp(
-                rectTransform.anchoredPosition,
-                targetPos,
-                ref currentVelocity,
-                smoothTime);
-
-            elapsedTime += Time.deltaTime;
+            t += Time.deltaTime / smoothTime;
+            
+            rectTransform.anchoredPosition = Vector2.Lerp(
+                startPos, 
+                targetPos, 
+                easeCurve.Evaluate(t));
+            
             yield return null;
         }
 
-        // Гарантируем точное попадание в конечную позицию
         rectTransform.anchoredPosition = targetPos;
+        currentCoroutine = null;
     }
 }

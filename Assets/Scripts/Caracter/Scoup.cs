@@ -1,14 +1,19 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+
 public class Scoup : MonoBehaviour
 {
     public GameObject projectilePrefab;
     public float projectileSpeed = 20f;
-    public Transform shootPoint; // Точка, откуда вылетает снаряд
+    public Transform shootPoint;
+    public float rotationSpeed = 10f;
+    
     private Animator animator;
-    private List<GameObject> bullets;
+    private List<GameObject> bullets = new List<GameObject>();
+    private Vector3 targetShootPoint; // Сохраняем только точку прицеливания
+    public AudioSource audioSource;
+    public AudioClip clip;
 
     void Start()
     {
@@ -17,18 +22,69 @@ public class Scoup : MonoBehaviour
     
     void Update()
     {
-        animator.SetBool("Meny",CameraController.starting);
-        if (Input.GetMouseButtonDown(0) && bullets.Count <= 0 && Timer.Canshoot) // ЛКМ
+        animator.SetBool("Meny", CameraController.starting);
+        
+        if (Input.GetMouseButtonDown(0) && bullets.Count <= 0 && Timer.Canshoot)
         {
-            //animator.Play("Blend Tree");
-            animator.SetTrigger("Shoot");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
+            
             if (Physics.Raycast(ray, out hit))
             {
-                Vector3 targetPoint = hit.point;
-                StartCoroutine(ShootAt(targetPoint));
+                // Сохраняем только точку прицеливания
+                targetShootPoint = hit.point;
+                
+                StartCoroutine(RotateAndShoot());
+                animator.SetTrigger("Shoot");
+                if (CanvasController.Mysic)
+                {
+                    audioSource.PlayOneShot(clip);
+                }
             }
+        }
+    }
+
+    IEnumerator RotateAndShoot()
+    {
+        // Рассчитываем начальное направление
+        Vector3 initialDirection = (targetShootPoint - shootPoint.position).normalized;
+        Vector3 lookDirection = new Vector3(initialDirection.x, 0, initialDirection.z);
+        Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+        
+        // Плавный поворот
+        float time = 0;
+        while (time < 1f)
+        {
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation, 
+                targetRotation, 
+                time);
+                
+            time += Time.deltaTime * rotationSpeed;
+            yield return null;
+        }
+
+        // После поворота создаем пулю с текущими координатами
+        CreateProjectile();
+    }
+
+    void CreateProjectile()
+    {
+        // Рассчитываем направление из ТЕКУЩЕГО положения
+        Vector3 direction = (targetShootPoint - shootPoint.position).normalized;
+        
+        GameObject projectile = Instantiate(
+            projectilePrefab, 
+            shootPoint.position, // Текущая позиция
+            Quaternion.identity);
+            
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        rb.linearVelocity = direction * projectileSpeed;
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion correction = Quaternion.Euler(90f, 0f, 0f);
+            projectile.transform.rotation = Quaternion.LookRotation(direction) * correction;
         }
     }
 
@@ -37,24 +93,8 @@ public class Scoup : MonoBehaviour
         bullets = new List<GameObject>(GameObject.FindGameObjectsWithTag("Bullet"));
     }
 
-
-    IEnumerator ShootAt(Vector3 targetPosition)
+    void DestroyBullets(GameObject bullet)
     {
-        yield return new WaitForSeconds(0.3f);
-        Vector3 direction = (targetPosition - shootPoint.position).normalized;
-        GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
-    
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        rb.linearVelocity = direction * projectileSpeed;
-    
-        // Исправление поворота для пуль, ориентированных по Y
-        if (direction != Vector3.zero)
-        {
-            // Поворачиваем на 90 градусов по X, если пуля "смотрит" вверх
-            Quaternion correction = Quaternion.Euler(90f, 0f, 0f);
-            projectile.transform.rotation = Quaternion.LookRotation(direction) * correction;
-        }
-    
-        Destroy(projectile, 5f);
+        Destroy(bullet);
     }
 }
