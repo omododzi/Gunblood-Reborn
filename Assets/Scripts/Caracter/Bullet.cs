@@ -22,21 +22,29 @@ public class Bullet : MonoBehaviour
         {
             Animator anim = other.GetComponentInParent<Animator>();
             anim.Play("Headshot");
+            ScoreController.score += 1;
+            CanvasController.Win = true;
         }
         else if (other.CompareTag("Body"))
         {
             Animator anim = other.GetComponentInParent<Animator>();
             anim.Play("Forward");
+            ScoreController.score += 1;
+            CanvasController.Win = true;
         }
         else if (other.CompareTag("RightHand"))
         {
             Animator anim = other.GetComponentInParent<Animator>();
             anim.Play("Right");
+            ScoreController.score += 1;
+            CanvasController.Win = true;
         }
         else if (other.CompareTag("LeftHand"))
         {
             Animator anim = other.GetComponentInParent<Animator>();
             anim.Play("Left");
+            ScoreController.score += 1;
+            CanvasController.Win = true;
         }
     }
 }

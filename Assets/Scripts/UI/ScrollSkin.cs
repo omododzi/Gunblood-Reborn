@@ -1,11 +1,17 @@
+using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
-public class ScrollSkin : MonoBehaviour
+public class ScrollSkin : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
 {
-    public float scrollSpeed = 100f;
     public float smoothTime = 0.5f;
     public AnimationCurve easeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+    public List<GameObject> summ;
+    public GameObject loced;
+    private bool isopen = false;
+    
     
     private float startY;
     private float startX;
@@ -14,9 +20,17 @@ public class ScrollSkin : MonoBehaviour
     private RectTransform rectTransform;
     private RectTransform parentRectTransform;
     private Coroutine currentCoroutine;
-
+    
     private void Awake()
     {
+        if (isopen&& loced!=null)
+        {
+            loced.SetActive(false);
+        }
+        else if (!isopen&&loced!=null)
+        {
+            loced.SetActive(true);
+        }
         rectTransform = GetComponent<RectTransform>();
         parentRectTransform = transform.parent.GetComponent<RectTransform>();
         startY = parentRectTransform.anchoredPosition.y;
@@ -74,4 +88,39 @@ public class ScrollSkin : MonoBehaviour
         rectTransform.anchoredPosition = targetPos;
         currentCoroutine = null;
     }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!isopen && summ != null)
+        {
+            for (int i = 0; i < summ.Count; i++)
+            {
+                summ[i].SetActive(true);
+            }
+        }
+      
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (summ != null)
+        {
+            for (int i = 0; i < summ.Count; i++)
+            {
+                summ[i].SetActive(false);
+            }
+        }
+       
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (ScoreController.score >= summ.Count && !isopen&& loced!=null)
+        {
+            loced.SetActive(false);
+            isopen = true;
+            ScoreController.score -= summ.Count;
+        }
+    }
+    
 }

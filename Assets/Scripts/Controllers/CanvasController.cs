@@ -8,6 +8,7 @@ public class CanvasController : MonoBehaviour
     public GameObject mysicOn;
     public GameObject mysicOff;
     public static bool Mysic = true;
+    public static bool Win = false;
 
     void Start()
     {
@@ -17,10 +18,14 @@ public class CanvasController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (CameraController.starting)
+        if (CameraController.starting || Win)
         {
             gameui.enabled = false;
             startui.enabled = true;
+            Timer.Canshoot = false;
+            Win = false;
+            CameraController.starting = true;
+            Timer.timer = 0f;
         }
         else
         {
