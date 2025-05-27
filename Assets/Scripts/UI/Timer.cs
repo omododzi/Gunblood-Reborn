@@ -14,7 +14,6 @@ public class Timer : MonoBehaviour
     private Color targetColor;
     
     public AudioSource audioSource;
-    public AudioClip clip;
     public AudioClip fullClip;
     private AudioClip trimmedClip;
 
