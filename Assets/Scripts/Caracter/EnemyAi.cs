@@ -17,7 +17,6 @@ public class EnemyAi : MonoBehaviour
     
     private Animator animator;
     private Transform playerTarget;
-    private List<GameObject> bullets = new List<GameObject>();
     private float nextShootTime;
     private bool isShooting;
     public AudioSource audioSource;
@@ -28,8 +27,7 @@ public class EnemyAi : MonoBehaviour
         animator = GetComponent<Animator>();
         playerTarget = GameObject.FindGameObjectWithTag("Player").transform;
         
-        // Инициализируем список пуль
-        UpdateBulletsList();
+        
     }
 
     void Update()
@@ -43,19 +41,12 @@ public class EnemyAi : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-        // Оптимизированный поиск пуль - не каждый кадр
-        if (Time.frameCount % 10 == 0) // Проверяем каждые 10 кадров
-        {
-            UpdateBulletsList();
-        }
-    }
+   
 
     bool CanShoot()
     {
         return Timer.Canshoot 
-            && bullets.Count <= 0 
+            && Scoup.bullets.Count <= 0 
             && !isShooting 
             && Time.time >= nextShootTime;
     }
@@ -100,34 +91,21 @@ public class EnemyAi : MonoBehaviour
 
     void CreateProjectile()
     {
-        Vector3 currentDirection = (targetShootPoint - shootPoint.position).normalized;
-        
-        GameObject projectile = Instantiate(
-            projectilePrefab, 
-            shootPoint.position,
-            Quaternion.LookRotation(currentDirection) * Quaternion.Euler(90f, 0f, 0f)
-        );
-        
+        // Направление в точку клика (УЧИТЫВАЕТ высоту)
+        Vector3 direction = (targetShootPoint - shootPoint.position).normalized;
+    
+        // Спавним пулю
+        GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
+        Scoup.bullets.Add(projectile);
+    
+        // Задаём скорость
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        rb.linearVelocity = currentDirection * projectileSpeed;
-        
-        // Добавляем пулю в список
-        bullets.Add(projectile);
-    }
+        rb.linearVelocity = direction * projectileSpeed;
 
-    void UpdateBulletsList()
-    {
-        // Удаляем уничтоженные пули
-        bullets.RemoveAll(bullet => bullet == null);
-        
-        // Добавляем новые пули
-        GameObject[] currentBullets = GameObject.FindGameObjectsWithTag("Bullet");
-        foreach (var bullet in currentBullets)
+        // Поворачиваем пулю в сторону выстрела (если нужно)
+        if (direction != Vector3.zero)
         {
-            if (!bullets.Contains(bullet))
-            {
-                bullets.Add(bullet);
-            }
+            projectile.transform.rotation = Quaternion.LookRotation(direction);
         }
     }
 }

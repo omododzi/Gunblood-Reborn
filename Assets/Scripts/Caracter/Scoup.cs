@@ -10,7 +10,7 @@ public class Scoup : MonoBehaviour
     public float rotationSpeed = 10f;
     
     private Animator animator;
-    public List<GameObject> bullets = new List<GameObject>();
+    public static List<GameObject> bullets = new List<GameObject>();
     private Vector3 targetShootPoint;
     public AudioSource audioSource;
     public AudioClip clip;
@@ -70,22 +70,21 @@ public class Scoup : MonoBehaviour
 
     void CreateProjectile()
     {
-       
-        // Рассчитываем направление из ТЕКУЩЕГО положения
+        // Направление в точку клика (УЧИТЫВАЕТ высоту)
         Vector3 direction = (targetShootPoint - shootPoint.position).normalized;
-        
-        GameObject projectile = Instantiate(
-            projectilePrefab, 
-            shootPoint.position, // Текущая позиция
-            Quaternion.identity);
-             bullets.Add(projectile);
+    
+        // Спавним пулю
+        GameObject projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
+        bullets.Add(projectile);
+    
+        // Задаём скорость
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.linearVelocity = direction * projectileSpeed;
 
+        // Поворачиваем пулю в сторону выстрела (если нужно)
         if (direction != Vector3.zero)
         {
-            Quaternion correction = Quaternion.Euler(90f, 0f, 0f);
-            projectile.transform.rotation = Quaternion.LookRotation(direction) * correction;
+            projectile.transform.rotation = Quaternion.LookRotation(direction);
         }
     }
 }

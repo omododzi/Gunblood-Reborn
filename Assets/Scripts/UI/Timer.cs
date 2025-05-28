@@ -40,7 +40,6 @@ public class Timer : MonoBehaviour
         shoottime = Random.Range(5, 15);
         timer = 0f;
         timerText.color= Color.red; // Начальный цвет
-        Canshoot = false;
         //Cursor.visible = false;
     }
 
@@ -62,10 +61,12 @@ public class Timer : MonoBehaviour
             if (timer <= shoottime * 0.5f && timerText.color != Color.red)
             {
                 timerText.color = Color.red;
+                Canshoot = false;
             }
             else if (timer > shoottime * 0.5f && timer < shoottime * 0.9f && timerText.color != Color.yellow)
             {
                 timerText.color= Color.yellow;
+                Canshoot = false;
             }
             else if (timer >= shoottime && timerText.color != Color.green)
             {

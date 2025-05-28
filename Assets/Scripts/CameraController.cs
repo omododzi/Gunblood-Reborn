@@ -23,6 +23,8 @@ public class CameraController : MonoBehaviour
       
       public float lookAtHeightOffset = 0.5f;
       public float lookAtRightOffset = 0.5f;
+      private float startlookHoffset;
+      private float startlookRoffset;
   
       private Vector3 velocity = Vector3.zero;
       private bool targetFound = false;
@@ -30,11 +32,14 @@ public class CameraController : MonoBehaviour
   
       void Start()
       {
+          startlookRoffset = lookAtRightOffset;
+          startlookHoffset = lookAtHeightOffset;
           FindTarget();
       }
   
       void LateUpdate()
       {
+          Debug.Log(Timer.Canshoot);
           if (!targetFound || target == null)
           {
               FindTarget();
@@ -113,7 +118,8 @@ public class CameraController : MonoBehaviour
           }
           else
           {
-              lookAtRightOffset = -1.5f;
+              lookAtRightOffset = startlookRoffset;
+              lookAtHeightOffset = startlookHoffset;
               Vector3 desiredPosition = target.position + 
                                         target.right * offset.x + 
                                         target.up * offset.y + 

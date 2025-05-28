@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BuletsEnemy : MonoBehaviour
@@ -16,7 +17,11 @@ public class BuletsEnemy : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        /*
+        if (other.gameObject.CompareTag("Player"))
+        {
+            Destroy(gameObject, 0.3f);
+        }
+        
         if (other.CompareTag("Head"))
         {
             Animator anim = other.GetComponentInParent<Animator>();
@@ -37,6 +42,10 @@ public class BuletsEnemy : MonoBehaviour
             Animator anim = other.GetComponentInParent<Animator>();
             anim.Play("Left");
         }
-        */
+    }
+
+    private void OnDestroy()
+    {
+        Scoup.bullets.Remove(gameObject);
     }
 }

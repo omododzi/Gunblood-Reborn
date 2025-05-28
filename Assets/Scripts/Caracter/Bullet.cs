@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(gameObject,0.3f);
+            Scoup.bullets.Remove(gameObject);
         }
 
         if (collision.gameObject.CompareTag("Destroy"))
@@ -46,5 +47,9 @@ public class Bullet : MonoBehaviour
             ScoreController.score += 1;
             CanvasController.Win = true;
         }
+    }
+    private void OnDestroy()
+    {
+        Scoup.bullets.Remove(gameObject);
     }
 }
