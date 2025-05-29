@@ -26,8 +26,6 @@ public class EnemyAi : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         playerTarget = GameObject.FindGameObjectWithTag("Player").transform;
-        
-        
     }
 
     void Update()
@@ -45,7 +43,7 @@ public class EnemyAi : MonoBehaviour
 
     bool CanShoot()
     {
-        return Timer.Canshoot 
+        return Timer.Canshootenemy
             && Scoup.bullets.Count <= 0 
             && !isShooting 
             && Time.time >= nextShootTime;

@@ -9,6 +9,8 @@ public class Timer : MonoBehaviour
     public TMP_Text timerText;
     public static float shoottime;
     public static bool Canshoot = false;
+    public static float shoottimEnemy;
+    public static bool Canshootenemy = false;
     
     public static float timer;
     private Color targetColor;
@@ -38,9 +40,10 @@ public class Timer : MonoBehaviour
     private void OnEnable()
     {
         shoottime = Random.Range(5, 15);
+        shoottimEnemy = Random.Range(shoottime, shoottime + 2);
         timer = 0f;
         timerText.color= Color.red; // Начальный цвет
-        //Cursor.visible = false;
+        Cursor.visible = false;
     }
 
     private void OnDisable()
@@ -62,11 +65,13 @@ public class Timer : MonoBehaviour
             {
                 timerText.color = Color.red;
                 Canshoot = false;
+                Canshootenemy = false;
             }
             else if (timer > shoottime * 0.5f && timer < shoottime * 0.9f && timerText.color != Color.yellow)
             {
                 timerText.color= Color.yellow;
                 Canshoot = false;
+                Canshootenemy = false;
             }
             else if (timer >= shoottime && timerText.color != Color.green)
             {
@@ -78,6 +83,11 @@ public class Timer : MonoBehaviour
                 timerText.color = Color.green;
                 Canshoot = true;
             }
+        }
+
+        if (timer >= shoottimEnemy)
+        {
+            Canshootenemy = true;
         }
     }
 }

@@ -1,15 +1,21 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
     public AnimatorController animator;
+    void Start()
+    {
+        Destroy(gameObject, 5);
+    }
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(gameObject,0.3f);
             Scoup.bullets.Remove(gameObject);
+            StartCoroutine(Add());
         }
 
         if (collision.gameObject.CompareTag("Destroy"))
@@ -25,6 +31,7 @@ public class Bullet : MonoBehaviour
             anim.Play("Headshot");
             ScoreController.score += 1;
             CanvasController.Win = true;
+            StartCoroutine(Add());
         }
         else if (other.CompareTag("Body"))
         {
@@ -32,6 +39,7 @@ public class Bullet : MonoBehaviour
             anim.Play("Forward");
             ScoreController.score += 1;
             CanvasController.Win = true;
+            StartCoroutine(Add());
         }
         else if (other.CompareTag("RightHand"))
         {
@@ -39,6 +47,7 @@ public class Bullet : MonoBehaviour
             anim.Play("Right");
             ScoreController.score += 1;
             CanvasController.Win = true;
+            StartCoroutine(Add());
         }
         else if (other.CompareTag("LeftHand"))
         {
@@ -46,7 +55,13 @@ public class Bullet : MonoBehaviour
             anim.Play("Left");
             ScoreController.score += 1;
             CanvasController.Win = true;
+            StartCoroutine(Add());
         }
+    }
+    IEnumerator Add()
+    {
+        yield return new WaitForSeconds(0.5f);
+        YGadd.TryShowFullscreenAdWithChance(50);
     }
     private void OnDestroy()
     {

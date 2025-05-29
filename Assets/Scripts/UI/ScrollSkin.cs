@@ -2,7 +2,10 @@ using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using YG;
 
 public class ScrollSkin : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
 {
@@ -10,9 +13,8 @@ public class ScrollSkin : MonoBehaviour,IPointerEnterHandler, IPointerExitHandle
     public AnimationCurve easeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     public List<GameObject> summ;
     public GameObject loced;
-    private bool isopen = false;
     
-    
+    public bool isopen = false;
     private float startY;
     private float startX;
     public float endX;
@@ -21,6 +23,11 @@ public class ScrollSkin : MonoBehaviour,IPointerEnterHandler, IPointerExitHandle
     private RectTransform parentRectTransform;
     private Coroutine currentCoroutine;
     
+    public SceneAsset  cowboyScene;
+    public SceneAsset  rioScene;
+    public SceneAsset  magicScene;
+    public SceneAsset  hunterScene;
+    private SceneAsset  loadscene;
     private void Awake()
     {
         if (isopen&& loced!=null)
@@ -30,6 +37,11 @@ public class ScrollSkin : MonoBehaviour,IPointerEnterHandler, IPointerExitHandle
         else if (!isopen&&loced!=null)
         {
             loced.SetActive(true);
+        }
+
+        if (loced == null)
+        {
+            isopen = true;
         }
         rectTransform = GetComponent<RectTransform>();
         parentRectTransform = transform.parent.GetComponent<RectTransform>();
@@ -41,6 +53,33 @@ public class ScrollSkin : MonoBehaviour,IPointerEnterHandler, IPointerExitHandle
             endX = rectTransform.anchoredPosition.x;
             endY = rectTransform.anchoredPosition.y;
         }
+    }
+
+    private void Start()
+    {
+        if(cowboyScene!=null) loadscene = cowboyScene;
+        else if (rioScene!=null) loadscene = rioScene;
+        else if (magicScene!=null) loadscene = magicScene;
+        else if (hunterScene!=null) loadscene = hunterScene;
+        else Debug.Log("nonescene");
+
+
+        if (rioScene != null && YandexGame.savesData.Rio)
+        {
+            loced.SetActive(false); 
+            isopen = true;
+        }
+        else if (magicScene != null && YandexGame.savesData.Mage)
+        {
+            loced.SetActive(false);
+            isopen = true;
+        }
+        else if (hunterScene != null && YandexGame.savesData.Hunter)
+        {
+            loced.SetActive(false);
+            isopen = true;
+        }
+        else Debug.Log("nonescene");
     }
 
     private void OnDisable()
@@ -119,7 +158,15 @@ public class ScrollSkin : MonoBehaviour,IPointerEnterHandler, IPointerExitHandle
         {
             loced.SetActive(false);
             isopen = true;
+            if (rioScene!=null) YandexGame.savesData.Rio = true;
+            else if (magicScene!=null) YandexGame.savesData.Mage = true;
+            else if (hunterScene!=null) YandexGame.savesData.Hunter = true;
             ScoreController.score -= summ.Count;
+        }
+
+        else if (isopen && loced!=null && !loced.activeSelf)
+        {
+            SceneManager.LoadScene(loadscene.name);
         }
     }
     

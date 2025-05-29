@@ -863,8 +863,13 @@ MonoBehaviour:
     m_RotationOrder: 4
   summ: []
   loced: {fileID: 0}
+  isopen: 0
   endX: 0
   endY: 0
+  cowboyScene: {fileID: 102900000, guid: 21446b638fd08c0438f70ae02d488a4d, type: 3}
+  rioScene: {fileID: 0}
+  magicScene: {fileID: 0}
+  hunterScene: {fileID: 0}
 --- !u!114 &64589345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1378,8 +1383,13 @@ MonoBehaviour:
   - {fileID: 792956367}
   - {fileID: 1534339870}
   loced: {fileID: 1585660647}
+  isopen: 0
   endX: 0
   endY: 0
+  cowboyScene: {fileID: 0}
+  rioScene: {fileID: 0}
+  magicScene: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
+  hunterScene: {fileID: 0}
 --- !u!114 &111415610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5828,7 +5838,7 @@ MonoBehaviour:
   followSpeed: 0.1
   rotationSpeed: 2.51
   positionSmoothTime: 0.5
-  lookAtHeightOffset: -0.08
+  lookAtHeightOffset: 1
   lookAtRightOffset: -1.5
   buletfound: 0
 --- !u!114 &522811757
@@ -7022,8 +7032,13 @@ MonoBehaviour:
     m_RotationOrder: 4
   summ: []
   loced: {fileID: 0}
+  isopen: 0
   endX: 0
   endY: 0
+  cowboyScene: {fileID: 0}
+  rioScene: {fileID: 0}
+  magicScene: {fileID: 0}
+  hunterScene: {fileID: 0}
 --- !u!114 &638078049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10294,6 +10309,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4835789832631930, guid: bdf8e7438a7816543998181bd3067573, type: 3}
   m_PrefabInstance: {fileID: 1036690457}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1044698399
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2211564899198745197, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: m_Name
+      value: YandexGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211564899198745199, guid: caf9732433f4dc044845763962493607, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: caf9732433f4dc044845763962493607, type: 3}
 --- !u!1001 &1045032437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16089,8 +16161,13 @@ MonoBehaviour:
   - {fileID: 1000970086}
   - {fileID: 1001914565}
   loced: {fileID: 354913601}
+  isopen: 0
   endX: 0
   endY: 0
+  cowboyScene: {fileID: 0}
+  rioScene: {fileID: 0}
+  magicScene: {fileID: 0}
+  hunterScene: {fileID: 0}
 --- !u!114 &1648507431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16384,8 +16461,13 @@ MonoBehaviour:
   - {fileID: 1190944750}
   - {fileID: 136152273}
   loced: {fileID: 1081609790}
+  isopen: 0
   endX: 0
   endY: 0
+  cowboyScene: {fileID: 0}
+  rioScene: {fileID: 0}
+  magicScene: {fileID: 0}
+  hunterScene: {fileID: 102900000, guid: 8fb6346f292198843aa018d9e2c190d3, type: 3}
 --- !u!114 &1683962611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19727,8 +19809,13 @@ MonoBehaviour:
   - {fileID: 1307330458}
   - {fileID: 1456129330}
   loced: {fileID: 1505264665}
+  isopen: 0
   endX: 0
   endY: 0
+  cowboyScene: {fileID: 0}
+  rioScene: {fileID: 0}
+  magicScene: {fileID: 0}
+  hunterScene: {fileID: 0}
 --- !u!114 &1984419878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20491,8 +20578,13 @@ MonoBehaviour:
   - {fileID: 1714265481}
   - {fileID: 35871535}
   loced: {fileID: 1438191939}
+  isopen: 0
   endX: 0
   endY: 0
+  cowboyScene: {fileID: 0}
+  rioScene: {fileID: 102900000, guid: d2809ab9b90eea7419d8d90d4c505d35, type: 3}
+  magicScene: {fileID: 0}
+  hunterScene: {fileID: 0}
 --- !u!114 &2097759020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20743,3 +20835,4 @@ SceneRoots:
   - {fileID: 1757453515}
   - {fileID: 1322122629}
   - {fileID: 1550469105}
+  - {fileID: 1044698399}

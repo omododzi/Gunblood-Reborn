@@ -39,7 +39,7 @@ public class CameraController : MonoBehaviour
   
       void LateUpdate()
       {
-          Debug.Log(Timer.Canshoot);
+          
           if (!targetFound || target == null)
           {
               FindTarget();
