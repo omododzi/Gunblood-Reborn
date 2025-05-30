@@ -39,6 +39,10 @@ public class CameraController : MonoBehaviour
   
       void LateUpdate()
       {
+          if (starting)
+          {
+              Cursor.visible = true;
+          }
           
           if (!targetFound || target == null)
           {

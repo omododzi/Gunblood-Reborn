@@ -44,11 +44,13 @@ public class Timer : MonoBehaviour
         timer = 0f;
         timerText.color= Color.red; // Начальный цвет
         Cursor.visible = false;
+        Canshootenemy = false;
     }
 
     private void OnDisable()
     {
         timer = 0f;
+        Canshootenemy = false;
     }
 
     private void Update()
@@ -65,6 +67,7 @@ public class Timer : MonoBehaviour
             {
                 timerText.color = Color.red;
                 Canshoot = false;
+                Cursor.visible = false;
                 Canshootenemy = false;
             }
             else if (timer > shoottime * 0.5f && timer < shoottime * 0.9f && timerText.color != Color.yellow)
@@ -72,6 +75,7 @@ public class Timer : MonoBehaviour
                 timerText.color= Color.yellow;
                 Canshoot = false;
                 Canshootenemy = false;
+                Cursor.visible = false;
             }
             else if (timer >= shoottime && timerText.color != Color.green)
             {

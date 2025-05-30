@@ -44,6 +44,7 @@ public class EnemyAi : MonoBehaviour
     bool CanShoot()
     {
         return Timer.Canshootenemy
+            && !CameraController.starting
             && Scoup.bullets.Count <= 0 
             && !isShooting 
             && Time.time >= nextShootTime;

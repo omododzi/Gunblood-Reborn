@@ -1,6 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class CanvasController : MonoBehaviour
 {
     public Canvas startui;
@@ -18,6 +19,13 @@ public class CanvasController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (Win)
+        {
+            Win = false;
+            CameraController.starting = true;
+            Timer.timer = 0f;
+            StartCoroutine(Reload());
+        }
         if (CameraController.starting || Win)
         {
             gameui.enabled = false;
@@ -46,5 +54,11 @@ public class CanvasController : MonoBehaviour
             mysicOff.SetActive(false);
             mysicOn.SetActive(true);
         }
+    }
+
+    IEnumerator Reload()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

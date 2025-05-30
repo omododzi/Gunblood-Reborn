@@ -1,8 +1,7 @@
-using System;
+using UnityEditor;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using YG;
@@ -23,11 +22,11 @@ public class ScrollSkin : MonoBehaviour,IPointerEnterHandler, IPointerExitHandle
     private RectTransform parentRectTransform;
     private Coroutine currentCoroutine;
     
-    public SceneAsset  cowboyScene;
-    public SceneAsset  rioScene;
-    public SceneAsset  magicScene;
-    public SceneAsset  hunterScene;
-    private SceneAsset  loadscene;
+    public string  cowboyScene;
+    public string  rioScene;
+    public string  magicScene;
+    public string  hunterScene;
+    private string  loadscene;
     private void Awake()
     {
         if (isopen&& loced!=null)
@@ -166,7 +165,7 @@ public class ScrollSkin : MonoBehaviour,IPointerEnterHandler, IPointerExitHandle
 
         else if (isopen && loced!=null && !loced.activeSelf)
         {
-            SceneManager.LoadScene(loadscene.name);
+            SceneManager.LoadScene(loadscene);
         }
     }
     
